@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Cups{% endblock %}
+
+{% block content %}
+
+{% for cup in object_list %}
+<div>
+  <h2>{{ cup.name }}</h2>
+  <p><a href="{{ cup.get_absolute_url }}">Lien</a></p>
+  <p>{% if cup.funded %}C’est bon !{% else %}Il manque encore {{ cup.missing }} €{% endif %}</p>
+{% empty %}
+<p>Il n’y a pas de ⊔ pour l’instant</p>
+{% endfor %}
+
+{% endblock %}

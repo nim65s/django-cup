@@ -17,8 +17,14 @@ class Cup(models.Model):
     def __str__(self):
         return 'Cup pour %s' % self.name
 
+    def get_absolute_url(self):
+        ...
+
     def funded(self):
         return query_sum(self.don_set) >= self.mini
+
+    def missing(self):
+        return self.mini - query_sum(self.don_set)
 
 
 class Don(models.Model):
