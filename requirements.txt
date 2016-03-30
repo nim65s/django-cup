@@ -5,6 +5,7 @@
 #    pip-compile requirements.in
 #
 coverage==4.0.3           # via python-coveralls
+django-autoslug==1.9.3
 django-bootstrap3==7.0.1
 Django==1.9.4
 python-coveralls==2.7.0

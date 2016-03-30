@@ -1,7 +1,10 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.functions import Coalesce
 
 from django.contrib.auth.models import User
+
+from autoslug import AutoSlugField
 
 
 def query_sum(queryset, field='maxi'):
@@ -10,6 +13,7 @@ def query_sum(queryset, field='maxi'):
 
 class Cup(models.Model):
     name = models.CharField(max_length=200, unique=True)
+    slug = AutoSlugField(populate_from='name', unique=True)
     mini = models.DecimalField(max_digits=8, decimal_places=2)
     maxi = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     clos = models.BooleanField(default=False)
@@ -18,7 +22,7 @@ class Cup(models.Model):
         return 'Cup pour %s' % self.name
 
     def get_absolute_url(self):
-        ...
+        return reverse('cup:cup', kwargs={'slug': self.slug})
 
     def funded(self):
         return query_sum(self.don_set) >= self.mini
