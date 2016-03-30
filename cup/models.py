@@ -1,8 +1,7 @@
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.functions import Coalesce
-
-from django.contrib.auth.models import User
 
 from autoslug import AutoSlugField
 
@@ -35,10 +34,13 @@ class Don(models.Model):
     cup = models.ForeignKey(Cup)
     user = models.ForeignKey(User)
     maxi = models.DecimalField(max_digits=8, decimal_places=2)
-    mini = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    mini = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     def __str__(self):
         return 'Don de %s pour %s' % (self.user.username, self.cup.name)
+
+    def get_absolute_url(self):
+        return self.cup.get_absolute_url()
 
     class Meta:
         unique_together = ('cup', 'user')

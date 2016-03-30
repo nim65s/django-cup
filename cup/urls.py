@@ -1,13 +1,15 @@
 from django.conf.urls import url
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import DetailView, ListView
 
-from .models import Cup, Don
-from .views import DonCreateView
+from .models import Cup
+from .views import CupCreateView, DonCreateView, DonDispatchView, DonUpdateView
 
 app_name = 'cup'
 urlpatterns = [
     url(r'^$', ListView.as_view(model=Cup), name='home'),
-    url(r'^cup$', CreateView.as_view(model=Cup), name='add_cup'),
-    url(r'^(?P<slug>[^/]+)$', DetailView.as_view(model=Cup), name='cup'),
-    url(r'^(?P<slug>[^/]+)/dette$', DonCreateView.as_view(), name='don'),
+    url(r'^add$', CupCreateView.as_view(), name='add'),
+    url(r'^cup/(?P<slug>[^/]+)$', DetailView.as_view(model=Cup), name='cup'),
+    url(r'^cup/(?P<slug>[^/]+)/don$', DonDispatchView.as_view(), name='don'),
+    url(r'^cup/(?P<slug>[^/]+)/don/create$', DonCreateView.as_view(), name='add_don'),
+    url(r'^cup/(?P<slug>[^/]+)/don/(?P<pk>\d+)$', DonUpdateView.as_view(), name='update_don'),
 ]

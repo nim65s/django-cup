@@ -35,3 +35,5 @@ class CupTests(TestCase):
 
     def test_cup_list(self):
         self.assertEqual(self.client.get(reverse('cup:home')).status_code, 200)
+
+    # def test_
