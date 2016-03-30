@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -14,7 +15,6 @@ class Cup(models.Model):
     name = models.CharField(max_length=200, unique=True)
     slug = AutoSlugField(populate_from='name', unique=True)
     mini = models.DecimalField(max_digits=8, decimal_places=2)
-    maxi = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     clos = models.BooleanField(default=False)
 
     def __str__(self):
@@ -28,6 +28,11 @@ class Cup(models.Model):
 
     def missing(self):
         return self.mini - query_sum(self.don_set)
+
+    def effort(self):
+        mini_sum = query_sum(self.don_set, 'mini')
+        maxi_sum = query_sum(self.don_set, 'maxi')
+        return max((self.mini - mini_sum) / (maxi_sum - mini_sum), 0)
 
 
 class Don(models.Model):
@@ -44,3 +49,6 @@ class Don(models.Model):
 
     class Meta:
         unique_together = ('cup', 'user')
+
+    def pays(self):
+        return self.mini + Decimal(self.cup.effort() * (self.maxi - self.mini)).quantize(Decimal('.01'))

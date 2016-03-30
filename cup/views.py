@@ -9,7 +9,7 @@ from .models import Cup, Don
 
 class CupCreateView(LoginRequiredMixin, CreateView):
     model = Cup
-    fields = ['name', 'mini', 'maxi']
+    fields = ['name', 'mini']
 
 
 class DonDispatchView(LoginRequiredMixin, SingleObjectMixin, RedirectView):

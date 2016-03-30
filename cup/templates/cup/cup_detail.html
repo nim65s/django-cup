@@ -5,13 +5,13 @@
 {% block content %}
 
 <div>
-  <h2>{{ cup.name }}</h2>
+  <h2>{{ cup.name }} - {{ cup.mini }} €</h2>
   {% with funded=cup.funded %}
-  <p>{% if funded %}C’est bon !{% else %}Il manque encore {{ cup.missing }} €{% endif %}</p>
+  <p>{% if funded %}C’est bon ! Effort: {% widthratio cup.effort 1 100 %}% {% else %}Il manque encore {{ cup.missing }} €{% endif %}</p>
   <table class="table">
     <tr><th>User</th><th>maxi</th><th>mini</th>{% if funded %}<th>final</th>{% endif %}</tr>
     {% for don in cup.don_set.all %}
-    <tr><td>{{ don.user }}</td><td>{{ don.maxi }}</td><td>{{ don.mini }}</td>{% if funded %}<td>?</td>{% endif %}</tr>
+    <tr><td>{{ don.user }}</td><td>{{ don.maxi }}</td><td>{{ don.mini }}</td>{% if funded %}<td>{{ don.pays }}</td>{% endif %}</tr>
     {% empty %}
     <tr><td span="{% if funded %}4{% else %}3{% endif %}">Nothing yet</td></tr»
     {% endfor %}

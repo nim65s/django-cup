@@ -25,7 +25,6 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=200, unique=True)),
                 ('slug', autoslug.fields.AutoSlugField(editable=False, populate_from='name', unique=True)),
                 ('mini', models.DecimalField(decimal_places=2, max_digits=8)),
-                ('maxi', models.DecimalField(blank=True, decimal_places=2, max_digits=8, null=True)),
                 ('clos', models.BooleanField(default=False)),
             ],
         ),

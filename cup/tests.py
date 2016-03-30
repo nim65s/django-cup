@@ -9,7 +9,7 @@ class CupTests(TestCase):
         a, b, c = (User.objects.create_user(guy, email='%s@example.org' % guy, password=guy) for guy in 'abc')
         x = Cup(name='X', mini=1000)
         x.save()
-        y = Cup(name='Y', mini=1000, maxi=1200)
+        y = Cup(name='Y', mini=1200)
         y.save()
         Don(cup=x, user=a, maxi=100).save()
         Don(cup=x, user=b, maxi=50, mini=10).save()
