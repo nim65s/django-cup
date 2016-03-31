@@ -1,4 +1,5 @@
 from decimal import Decimal
+
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -32,7 +33,7 @@ class Cup(models.Model):
     def effort(self):
         mini_sum = query_sum(self.don_set, 'mini')
         maxi_sum = query_sum(self.don_set, 'maxi')
-        return max((self.mini - mini_sum) / (maxi_sum - mini_sum), 0)
+        return (self.mini - mini_sum) / (maxi_sum - mini_sum)
 
 
 class Don(models.Model):
