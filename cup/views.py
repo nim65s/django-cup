@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.views.generic import CreateView, RedirectView, UpdateView
 from django.views.generic.detail import SingleObjectMixin
 

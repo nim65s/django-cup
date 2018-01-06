@@ -1,15 +1,11 @@
 from decimal import Decimal
 
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from django.db import models
-from django.db.models.functions import Coalesce
+from django.urls import reverse
 
 from autoslug import AutoSlugField
-
-
-def query_sum(queryset, field='maxi'):
-    return queryset.aggregate(s=Coalesce(models.Sum(field), 0))['s']
+from ndh.utils import query_sum
 
 
 class Cup(models.Model):
@@ -19,16 +15,16 @@ class Cup(models.Model):
     clos = models.BooleanField(default=False)
 
     def __str__(self):
-        return 'Cup pour %s' % self.name
+        return f'Cup pour {self.name}'
 
     def get_absolute_url(self):
         return reverse('cup:cup', kwargs={'slug': self.slug})
 
     def funded(self):
-        return query_sum(self.don_set) >= self.mini
+        return query_sum(self.don_set, 'maxi') >= self.mini
 
     def missing(self):
-        return self.mini - query_sum(self.don_set)
+        return self.mini - query_sum(self.don_set, 'maxi')
 
     def effort(self):
         mini_sum = query_sum(self.don_set, 'mini')
@@ -37,13 +33,13 @@ class Cup(models.Model):
 
 
 class Don(models.Model):
-    cup = models.ForeignKey(Cup)
-    user = models.ForeignKey(User)
+    cup = models.ForeignKey(Cup, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     maxi = models.DecimalField(max_digits=8, decimal_places=2)
     mini = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     def __str__(self):
-        return 'Don de %s pour %s' % (self.user.username, self.cup.name)
+        return f'Don de {self.user.username} pour {self.cup.name}'
 
     def get_absolute_url(self):
         return self.cup.get_absolute_url()

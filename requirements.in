@@ -1,3 +1,4 @@
 django
-django-autoslug
 django-bootstrap3
+git+https://github.com/nim65s/ndh.git#egg=ndh
+git+https://github.com/nim65s/django-autoslug.git#egg=django-autoslug
