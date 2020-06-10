@@ -11,6 +11,3 @@ ndh = "*"
 safety = "*"
 python-coveralls = "*"
 yapf = "*"
-
-[requires]
-python_version = "3.7"
